@@ -23,13 +23,6 @@ Docker: Ensure you have Docker installed and running on your system.
 .NET SDK: The .NET SDK is required to build and run the .NET application.
 You also have to configure the .env if you don't want to use the default values I have provided.
 
-The .env looks like this:
-
-    API_KEY=6CBxzdYcEgNDrRhMbDpkBF7e4d4Kib46dwL9ZE5egiL0iL5Y3dzREUBSUYVUwUkN
-    POSTGRES_USER=username
-    POSTGRES_PASSWORD=password
-    POSTGRES_DB=productDB
-    DB_CONNECTION_STRING="Host=db;Database=${POSTGRES_DB};User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
 
 ### Set up environment variables:
 
