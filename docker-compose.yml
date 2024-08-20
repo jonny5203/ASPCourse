@@ -1,15 +1,13 @@
-version: '3'
+version: '3.8'
 services:
   webapi:
     build: . # Build the web API image from the Dockerfile
-    env_file:
-      - .env #using environmental variable so the ConnectionString doesn't accidentally get uploaded anywhere, may use something like Azure Key Vault in the future for security
     ports:
       - "8080:8080"
+    env_file:
+      - .env # taking values from the environmental variable file I have created in root dir
     depends_on:
       - db # Ensure the database container starts first
-    environment:
-      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING} # Use an environment variable
 
 
   db:

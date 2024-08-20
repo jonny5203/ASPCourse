@@ -1,6 +1,6 @@
 using ProjectMicroservices.Model;
 
-namespace ProjectMicroservices.Repository;
+namespace ProjectMicroservices.Services.Repository;
 
 public interface IProductRepository
 {
