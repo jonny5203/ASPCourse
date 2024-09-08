@@ -6,15 +6,15 @@ This project demonstrates how to build a .NET microservice with a PostgreSQL dat
 
 ## Introduction
 
-This project serves as a practical guide to developing .NET microservices that interact with a PostgreSQL database. We leverage Docker Compose to containerize both the application and the database, streamlining the development and deployment process. Key features include:
+This project serves as a practical guide to developing .NET with docker that interact with a PostgreSQL database(also in a container). I leverage Docker Compose to containerize both the application and the database, streamlining the development and deployment process. Key features include:
 
-Minimal API: A lightweight and efficient approach to building APIs in .NET.
-Custom Middleware: Demonstrates how to create and apply middleware for tasks like API key validation.
-Entity Framework Core: Facilitates database interaction and migrations using a code-first approach.
-Secure Configuration: Utilizes environment variables stored in a .env file to protect sensitive database credentials.
-Repository Pattern: Implements the repository pattern for better code organization and maintainability.
-Dependency Injection: Leverages built-in .NET dependency injection to manage dependencies effectively.
-Input Validation and Error Handling: Includes robust input validation and error handling to enhance application reliability.
+**Minimal API**: A lightweight and efficient approach to building APIs in .NET.
+**Custom Middleware**: Demonstrates how to create and apply middleware for tasks like API key validation.
+**Entity Framework Core**: Facilitates database interaction and migrations using a code-first approach.
+**Secure Configuration**: Utilizes environment variables stored in a .env file to protect sensitive database credentials.
+**Repository Pattern**: Implements the repository pattern for better code organization and maintainability.
+**Dependency Injection**: Leverages built-in .NET dependency injection to manage dependencies effectively.
+**Input Validation and Error Handling**: Includes robust input validation and error handling to enhance application reliability.
 
 ## Getting Started
 ### Prerequisites
@@ -81,13 +81,13 @@ Include the ApiKey header with the correct API key value in your requests to aut
 
 ### Project Structure and Design Choices
 
-Minimal API: The project uses Minimal API for a streamlined and focused approach to building APIs.
-Static Extension Methods: API endpoints are organized into separate files using static extension methods, promoting modularity and maintainability.
-Repository Pattern: The ProductRepository class encapsulates database interaction logic, adhering to the repository pattern for cleaner code structure.
-Dependency Injection: The ProductRepository and ApiKeyValidation classes are registered as scoped services, making them available for injection throughout the application.
-Custom Middleware: A custom middleware component (ApiKeyValidationMiddleware) is implemented to handle API key validation before requests reach the API endpoints.
-Entity Framework Core: EF Core is used for database access and migrations, allowing for a code-first approach to database schema management.
-Error Handling: The API includes error handling mechanisms to provide informative responses to the user in case of database errors or validation failures.
+**Minimal API**: The project uses Minimal API for a streamlined and focused approach to building APIs.
+**Static Extension Methods**: API endpoints are organized into separate files using static extension methods, promoting modularity and maintainability.
+**Repository Pattern**: The ProductRepository class encapsulates database interaction logic, adhering to the repository pattern for cleaner code structure.
+**Dependency Injection**: The ProductRepository and ApiKeyValidation classes are registered as scoped services, making them available for injection throughout the application.
+**Custom Middleware**: A custom middleware component (ApiKeyValidationMiddleware) is implemented to handle API key validation before requests reach the API endpoints.
+**Entity Framework Core**: EF Core is used for database access and migrations, allowing for a code-first approach to database schema management.
+**Error Handling**: The API includes error handling mechanisms to provide informative responses to the user in case of database errors or validation failures.
 
 ### Security Considerations
 

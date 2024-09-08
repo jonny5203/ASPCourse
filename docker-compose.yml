@@ -9,14 +9,14 @@ services:
     depends_on:
       - db # Ensure the database container starts first
 
-
   db:
-    image: postgres # Use the official PostgreSQL image
+    image: mcr.microsoft.com/mssql/server:2019-latest  # Use the official Microsoft SQL Server image
     env_file:
       - .env
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - ACCEPT_EULA=Y  # Required to accept the SQL Server End-User License Agreement
+      - SA_PASSWORD=${SA_PASSWORD}  # Set the password for the 'sa' (system administrator) user
+    ports:
+      - 1433:1433  # Expose the default SQL Server port
     volumes:
-      - ./data:/var/lib/postgresql/data # Persist database data
+      - ./data:/var/opt/mssql/data  # Persist database data
