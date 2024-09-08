@@ -21,6 +21,8 @@ This project serves as a practical guide to developing .NET with docker that int
 
 Docker: Ensure you have Docker installed and running on your system.
 .NET SDK: The .NET SDK is required to build and run the .NET application.
+You also have to configure the .env if you don't want to use the default values I have provided.
+
 
 ### Set up environment variables:
 
@@ -72,7 +74,7 @@ JSON format, id is optional and will just be set to zero for auto generated id
 
 ### Using postman to connect:
 
-    You have to add "X-API-Key" with the api key value and for post you have to
+    You have to add "X-API-Key" with the api key value in the header of the request and for post operations you have to
     provide a json file like I state above, remember that it has to be application/json
 
 ### Authentication:
