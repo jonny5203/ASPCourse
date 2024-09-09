@@ -11,7 +11,7 @@ static public class ActorAPI
 
     public static void ActorPostAPI(this RouteGroupBuilder group, Actor actor)
     {
-        group.MapPost("", )
+        
     }
 
     public static void ActorPutAPI(this RouteGroupBuilder group, Actor actor)

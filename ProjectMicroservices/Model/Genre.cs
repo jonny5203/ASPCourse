@@ -4,7 +4,6 @@ namespace ProjectMicroservices.Model;
 
 public class Genre : BaseEntity
 {
-    public override int Id { get; set; }
     public string Name { get; set; }
-    public ICollection<Movie> Movies { get; }
+    public ICollection<Movie> Movies { get; } = [];
 }

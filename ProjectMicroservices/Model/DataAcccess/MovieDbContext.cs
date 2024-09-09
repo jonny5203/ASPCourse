@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ProjectMicroservices.Model.Identity;
 
 namespace ProjectMicroservices.Model.DataAcccess;
 
-public class MovieDbContext : IdentityDbContext<IdentityUser>
+public class MovieDbContext : IdentityDbContext<AppUser>
 {
     public DbSet<Movie> Movies { get; set; }
     public DbSet<Genre> Genres { get; set; }
@@ -18,22 +19,24 @@ public class MovieDbContext : IdentityDbContext<IdentityUser>
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<IdentityUserLogin<string>>()
+            .HasKey(l => new { l.LoginProvider, l.ProviderKey });
+
+        modelBuilder.Entity<IdentityUserRole<string>>()
+            .HasKey(r => new { r.UserId, r.RoleId });
+        
         // Creating many to many relationship with predefined joint table, ef core will actually handle this
         // without the joint model, and just create a joint table, but it's more flexible to have one defined
         modelBuilder.Entity<Movie>()
             .HasMany(n => n.Genres)
-            .WithMany(g => g.Movies)
-            .UsingEntity<GenreMovie>(
-                l => l.HasOne<Genre>().WithMany().HasForeignKey(n => n.GenreId),
-                r => r.HasOne<Movie>().WithMany().HasForeignKey(n => n.MovieId));
+            .WithMany(g => g.Movies);
         
         // Movie actor relationship
         modelBuilder.Entity<Movie>()
             .HasMany(n => n.Actors)
-            .WithMany(a => a.Movies)
-            .UsingEntity<ActorMovie>(
-                l => l.HasOne<Actor>().WithMany().HasForeignKey(n => n.ActorId),
-                r => r.HasOne<Movie>().WithMany().HasForeignKey(n => n.MovieId));
+            .WithMany(a => a.Movies);
         
         // One to many relationship, a movie has one director(WithOne) and a director had many movies(HasMany)
         modelBuilder.Entity<Director>()

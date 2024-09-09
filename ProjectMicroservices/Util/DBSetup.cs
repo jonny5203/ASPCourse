@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ProjectMicroservices.Model;
+using ProjectMicroservices.Model.DataAcccess;
 
 namespace ProjectMicroservices.Util;
 
@@ -13,7 +13,7 @@ public static class DBSetup
         {
             var services = scope.ServiceProvider;
 
-            var context = services.GetRequiredService<ProductDbContext>();  
+            var context = services.GetRequiredService<MovieDbContext>();  
 
             context.Database.Migrate(); // This line triggers the migration process
         }

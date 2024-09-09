@@ -1,26 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/home/jonnym/Documents/DotNet/MicroServiceProj/ASPCourse/ProjectMicroservices/ProjectMicroservices.csproj": {}
+    "C:\\Users\\jonny\\Documents\\GitHub\\ASPCourse\\ProjectMicroservices\\ProjectMicroservices.csproj": {}
   },
   "projects": {
-    "/home/jonnym/Documents/DotNet/MicroServiceProj/ASPCourse/ProjectMicroservices/ProjectMicroservices.csproj": {
+    "C:\\Users\\jonny\\Documents\\GitHub\\ASPCourse\\ProjectMicroservices\\ProjectMicroservices.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/jonnym/Documents/DotNet/MicroServiceProj/ASPCourse/ProjectMicroservices/ProjectMicroservices.csproj",
+        "projectUniqueName": "C:\\Users\\jonny\\Documents\\GitHub\\ASPCourse\\ProjectMicroservices\\ProjectMicroservices.csproj",
         "projectName": "ProjectMicroservices",
-        "projectPath": "/home/jonnym/Documents/DotNet/MicroServiceProj/ASPCourse/ProjectMicroservices/ProjectMicroservices.csproj",
-        "packagesPath": "/home/jonnym/.dotnet/tools/.nuget/packages/",
-        "outputPath": "/home/jonnym/Documents/DotNet/MicroServiceProj/ASPCourse/ProjectMicroservices/obj/",
+        "projectPath": "C:\\Users\\jonny\\Documents\\GitHub\\ASPCourse\\ProjectMicroservices\\ProjectMicroservices.csproj",
+        "packagesPath": "C:\\Users\\jonny\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jonny\\Documents\\GitHub\\ASPCourse\\ProjectMicroservices\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/jonnym/.dotnet/tools/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\jonny\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "/usr/share/dotnet/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -60,6 +66,12 @@
               "target": "Package",
               "version": "[8.0.8, )"
             },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.8, )"
@@ -69,10 +81,6 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.8, )"
-            },
-            "Npgsql.EntityFrameworkCore.PostgreSQL": {
-              "target": "Package",
-              "version": "[8.0.4, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -98,7 +106,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

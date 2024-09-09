@@ -10,12 +10,11 @@ public class Movie : BaseEntity
     public string? Description { get; set; }
     public int? ReleaseYear { get; set; }
     public double? Price { get; set; }
-    
-    public ICollection<Genre> Genres { get; }
-    public ICollection<Actor> Actors { get; }
-    public ICollection<Review> Reviews { get; }
-    
-    [Required]
-    public string DirectorId { get; set; }
+
+    public ICollection<Genre> Genres { get; } = [];
+    public ICollection<Actor> Actors { get; } = [];
+    public ICollection<Review> Reviews { get; } = [];
+
+    [Required] public int DirectorId { get; set; }
     public Director Directors { get; }
 }

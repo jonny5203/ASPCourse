@@ -4,12 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using ProjectMicroservices.API;
 using ProjectMicroservices.Model;
 using ProjectMicroservices.Model.DataAcccess;
+using ProjectMicroservices.Model.Identity;
 using ProjectMicroservices.Services.Authentication;
 using ProjectMicroservices.Services.Repository;
 using ProjectMicroservices.Services.Repository.Classes;
 using ProjectMicroservices.Services.Repository.Interfaces;
 using ProjectMicroservices.Services.Validation;
 using ProjectMicroservices.Util;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +28,8 @@ builder.Services.AddSwaggerGen();
 // Add db context with connection string exposed by docker, this is scoped so the connection string
 // will have to be retrieved every time a new HTTP request is done
 builder.Services.AddDbContext<MovieDbContext>(
-    options => options.UseNpgsql(
-        Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
+    options => options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
         )
     );
 
@@ -45,6 +47,10 @@ builder.Services.AddValidatorsFromAssemblyContaining(typeof(ValidateIdFromObj));
 
 builder.Services.AddAuthorization();
 
+builder.Services
+    .AddIdentityApiEndpoints<AppUser>()
+    .AddEntityFrameworkStores<MovieDbContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -59,7 +65,7 @@ app.UseHttpsRedirection();
 // Adding the api key authentication into the pipeline as middleware
 app.UseMiddleware<ApiKeyMiddleware>();
 
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<AppUser>();
 
 // This statement will update all the migration I have inside the migration
 // This is because the docker setup automatically creates an empty postgres db in another container
