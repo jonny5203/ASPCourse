@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ProjectMicroservices.Model;
 using ProjectMicroservices.Services.Repository;
@@ -22,6 +23,12 @@ public static class MovieAPI
     }
     private static void MovieGetAPI(RouteGroupBuilder group)
     {
+        // Testing Identity with web API
+        group.MapGet("/api", [Authorize] (IMovieRepository movieRepository) =>
+        {
+            return Results.Ok();
+        });
+        
         // Get movie based on id, and validate if Id is valid number
         group.MapGet("", (IMovieRepository movieRepository, [Required, Range(0, int.MaxValue)] int movieId) =>
         {
@@ -32,7 +39,7 @@ public static class MovieAPI
             }
             catch (Exception ex)
             {
-                return Results.StatusCode(StatusCodes.Status404NotFound);
+                return Results.Json(new { message = "No entry exists on ID provided"}, statusCode: StatusCodes.Status404NotFound);;
             }
         });
 
@@ -45,13 +52,14 @@ public static class MovieAPI
             }
             catch (Exception ex)
             {
-                return Results.StatusCode(StatusCodes.Status500InternalServerError);
+                return Results.Json(new { message = "No entry exists"}, statusCode: StatusCodes.Status404NotFound);
             }
         });
     }
 
     private static void MovieUpsertAPI(RouteGroupBuilder group)
     {
+        
         // Adding product to db, by getting repo through DI, and deserialize
         // json object into a Product object, and ensure that productid is not provided
         group.MapPost("", (IMovieRepository movieRepository, Movie movie) =>
@@ -72,7 +80,7 @@ public static class MovieAPI
             }
             catch
             {
-                return Results.StatusCode(StatusCodes.Status500InternalServerError);
+                return Results.Json(new{ message = "Something went wrong, could not add movie to database" }, statusCode: StatusCodes.Status500InternalServerError);
             }
         }).AddEndpointFilter<ValidationFilter<Movie>>();
         
@@ -89,7 +97,7 @@ public static class MovieAPI
                 movieRepository.Update(movie);
                 movieRepository.SaveChanges();
                 return Results.Ok(new { 
-                    message = "Successfully Added Movie to List!", 
+                    message = "Successfully Updated Movie!", 
                     updatedItem = movie
                 });
             }

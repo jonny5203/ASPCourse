@@ -12,6 +12,8 @@ using ProjectMicroservices.Services.Repository.Interfaces;
 using ProjectMicroservices.Services.Validation;
 using ProjectMicroservices.Util;
 using System;
+using ProjectMicroservices.Services.Repository.UnitOfWork.Class;
+using ProjectMicroservices.Services.Repository.UnitOfWork.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,15 +43,13 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
 // Service for API validation
-builder.Services.AddScoped<IApiKeyVal, ApiKeyVal>();
+builder.Services.AddTransient<IApiKeyVal, ApiKeyVal>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(ValidateIdFromObj));
 
 builder.Services.AddAuthorization();
-
-builder.Services
-    .AddIdentityApiEndpoints<AppUser>()
-    .AddEntityFrameworkStores<MovieDbContext>();
 
 var app = builder.Build();
 
@@ -69,7 +69,7 @@ app.MapIdentityApi<AppUser>();
 
 // This statement will update all the migration I have inside the migration
 // This is because the docker setup automatically creates an empty postgres db in another container
-DBSetup.Setup(app);
+//DBSetup.Setup(app);
 
 // I defined the api in another file as an extention of app to make it more organized, as well 
 // as creating map group for easier management and also cleaner interface
