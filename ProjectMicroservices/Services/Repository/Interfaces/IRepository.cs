@@ -11,5 +11,6 @@ public interface IRepository<T> where T : BaseEntity
     void Add(BaseEntity entity);
     BaseEntity? Delete(int id);
     void Update(BaseEntity entity);
+    bool ifIDExists(int id);
     void SaveChanges();
 }

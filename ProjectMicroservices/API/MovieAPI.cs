@@ -5,6 +5,7 @@ using ProjectMicroservices.Model;
 using ProjectMicroservices.Services.Repository;
 using ProjectMicroservices.Services.Repository.Classes;
 using ProjectMicroservices.Services.Repository.Interfaces;
+using ProjectMicroservices.Services.Repository.UnitOfWork.Interface;
 using ProjectMicroservices.Services.Validation;
 
 namespace ProjectMicroservices.API;
@@ -29,30 +30,36 @@ public static class MovieAPI
             return Results.Ok();
         });
         
+        group.MapGet("/api/test", (IUnitOfWork unitOfWork) =>
+        {
+            var movies = unitOfWork.Movies.GetAll;
+            return Results.Ok();
+        });
+        
         // Get movie based on id, and validate if Id is valid number
-        group.MapGet("", (IMovieRepository movieRepository, [Required, Range(0, int.MaxValue)] int movieId) =>
+        group.MapGet("/id", (IUnitOfWork unitOfWork, [Required, Range(0, int.MaxValue)] int id) =>
         {
             try
             {
-                var movie = movieRepository.Get(movieId);
+                var movie = unitOfWork.Movies.Get(id);
                 return Results.Ok(movie);
             }
-            catch (Exception ex)
+            catch
             {
-                return Results.Json(new { message = "No entry exists on ID provided"}, statusCode: StatusCodes.Status404NotFound);;
+                return Results.Json(new { message = "No entry exists on moview ID provided"}, statusCode: StatusCodes.Status404NotFound);
             }
         });
 
-        group.MapGet("/all", (IMovieRepository movieRepository) =>
+        group.MapGet("/all", (IUnitOfWork unitOfWork) =>
         {
             try
             {
-                var products = movieRepository.GetAll();
-                return Results.Ok(products);
+                var movies = unitOfWork.Movies.GetAll();
+                return Results.Ok(movies);
             }
-            catch (Exception ex)
+            catch
             {
-                return Results.Json(new { message = "No entry exists"}, statusCode: StatusCodes.Status404NotFound);
+                return Results.Json(new { message = "No entry exists in movie table"}, statusCode: StatusCodes.Status404NotFound);
             }
         });
     }
@@ -62,7 +69,7 @@ public static class MovieAPI
         
         // Adding product to db, by getting repo through DI, and deserialize
         // json object into a Product object, and ensure that productid is not provided
-        group.MapPost("", (IMovieRepository movieRepository, Movie movie) =>
+        group.MapPost("", (IUnitOfWork unitOfWork, Movie movie) =>
         {
             // setting id to 0 so that ef core will recognize that this should be
             // an autoincremented value
@@ -70,8 +77,8 @@ public static class MovieAPI
 
             try
             {
-                movieRepository.Add(movie);
-                movieRepository.SaveChanges();
+                unitOfWork.Movies.Add(movie);
+                unitOfWork.Movies.SaveChanges();
                 return Results.Ok(new
                 {
                     status = "Successfully Added Movie to List!",
@@ -85,7 +92,7 @@ public static class MovieAPI
         }).AddEndpointFilter<ValidationFilter<Movie>>();
         
         // update an existing product in the database with new values
-        group.MapPut("", (IMovieRepository movieRepository, Movie movie) =>
+        group.MapPut("", (IUnitOfWork unitOfWork, Movie movie) =>
         {
             if (movie.Id is 0 or < 0)
             {
@@ -94,8 +101,8 @@ public static class MovieAPI
 
             try
             {
-                movieRepository.Update(movie);
-                movieRepository.SaveChanges();
+                unitOfWork.Movies.Update(movie);
+                unitOfWork.Movies.SaveChanges();
                 return Results.Ok(new { 
                     message = "Successfully Updated Movie!", 
                     updatedItem = movie
@@ -113,14 +120,14 @@ public static class MovieAPI
     private static void MovieDeleteAPI(RouteGroupBuilder group)
     {
         // Delete a product based on provided id in parameter from db
-        group.MapDelete("", (IMovieRepository movieRepository, int movieId) =>
+        group.MapDelete("", (IUnitOfWork unitOfWork, int movieId) =>
         {
             try
             {
-                var deletedMovie = movieRepository.Delete(movieId);
+                var deletedMovie = unitOfWork.Movies.Delete(movieId);
                 if(deletedMovie == null) return Results.NotFound();
                 
-                movieRepository.SaveChanges();
+                unitOfWork.Movies.SaveChanges();
                 
                 return Results.Ok(new { 
                     message = "Successfully Added Movie to List!", 

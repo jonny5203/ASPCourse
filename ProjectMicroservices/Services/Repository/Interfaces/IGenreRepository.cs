@@ -1,6 +1,8 @@
+using ProjectMicroservices.Model;
+
 namespace ProjectMicroservices.Services.Repository.Interfaces;
 
-public class IGenreRepository
+public interface IGenreRepository : IRepository<Genre>
 {
     
 }

@@ -67,6 +67,8 @@ public class MovieDbContext : IdentityDbContext<AppUser>
             .HasOne(gm => gm.Movie)
             .WithMany(m => m.GenreMovies)
             .HasForeignKey(gm => gm.MovieId);*/
+        
+        
     }
     
 }

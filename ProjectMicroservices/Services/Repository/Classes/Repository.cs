@@ -71,4 +71,9 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         _dbContext.SaveChanges();
     }
+
+    public bool ifIDExists(int id)
+    {
+        return _dbSet.Any(n => n.Id == id);
+    }
 }

@@ -1,6 +1,8 @@
+using ProjectMicroservices.Model;
+
 namespace ProjectMicroservices.Services.Repository.Interfaces;
 
-public class IReviewRepository
+public interface IReviewRepository : IRepository<Review>
 {
     
 }
