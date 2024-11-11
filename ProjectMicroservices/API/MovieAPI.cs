@@ -25,12 +25,25 @@ public static class MovieAPI
     private static void MovieGetAPI(RouteGroupBuilder group)
     {
         // Testing Identity with web API
-        group.MapGet("/api", [Authorize] (IMovieRepository movieRepository) =>
+        group.MapGet("/test/auth", [Authorize] (IMovieRepository movieRepository) =>
         {
             return Results.Ok();
         });
+
+        group.MapGet("/test/{id:int}", (IUnitOfWork unitOfWork, int id) =>
+        {
+            try
+            {
+                var movie = unitOfWork.Movies.Get(id);
+                return Results.Ok(movie);
+            }
+            catch
+            {
+                return Results.Json(new { message = "No entry exists on moview ID provided" }, statusCode: StatusCodes.Status404NotFound);
+            }
+        });
         
-        group.MapGet("/api/test", (IUnitOfWork unitOfWork) =>
+        group.MapGet("/test", (IUnitOfWork unitOfWork) =>
         {
             var movies = unitOfWork.Movies.GetAll;
             return Results.Ok();
@@ -78,7 +91,7 @@ public static class MovieAPI
             try
             {
                 unitOfWork.Movies.Add(movie);
-                unitOfWork.Movies.SaveChanges();
+                unitOfWork.SaveChanges();
                 return Results.Ok(new
                 {
                     status = "Successfully Added Movie to List!",
@@ -102,7 +115,7 @@ public static class MovieAPI
             try
             {
                 unitOfWork.Movies.Update(movie);
-                unitOfWork.Movies.SaveChanges();
+                unitOfWork.SaveChanges();
                 return Results.Ok(new { 
                     message = "Successfully Updated Movie!", 
                     updatedItem = movie
@@ -127,7 +140,7 @@ public static class MovieAPI
                 var deletedMovie = unitOfWork.Movies.Delete(movieId);
                 if(deletedMovie == null) return Results.NotFound();
                 
-                unitOfWork.Movies.SaveChanges();
+                unitOfWork.SaveChanges();
                 
                 return Results.Ok(new { 
                     message = "Successfully Added Movie to List!", 

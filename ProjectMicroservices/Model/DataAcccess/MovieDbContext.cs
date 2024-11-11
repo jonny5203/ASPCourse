@@ -33,7 +33,7 @@ public class MovieDbContext : IdentityDbContext<AppUser>
             .HasMany(n => n.Genres)
             .WithMany(g => g.Movies);
         
-        // Movie actor relationship
+        // Movie actor relationship, one actor could star in many movies and one movie may have many actors
         modelBuilder.Entity<Movie>()
             .HasMany(n => n.Actors)
             .WithMany(a => a.Movies);

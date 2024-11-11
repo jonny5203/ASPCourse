@@ -26,7 +26,7 @@ static public class ActorAPI
             }
             catch
             {
-                return Results.Json(new { message = "No entry exists on moview ID provided" }, statusCode: StatusCodes.Status404NotFound);
+                return Results.Json(new { message = "No entry exists on actor ID provided" }, statusCode: StatusCodes.Status404NotFound);
             }
 
         });
@@ -40,7 +40,7 @@ static public class ActorAPI
             }
             catch
             {
-                return Results.Json(new { message = "No entry exists in movie table" }, statusCode: StatusCodes.Status404NotFound);
+                return Results.Json(new { message = "No entry exists in actor table" }, statusCode: StatusCodes.Status404NotFound);
             }
         });
     }
@@ -71,25 +71,25 @@ static public class ActorAPI
                 if(actor.Id == 0)
                 {
                     unitOfWork.Actors.Add(actor);
-                    unitOfWork.Actors.SaveChanges();
+                    unitOfWork.SaveChanges();
                     return Results.Ok(new
                     {
-                        status = "Successfully Added Movie to List!",
+                        status = "Successfully Added Actor to List!",
                         createdItem = actor
                     });
                 }
 
                 unitOfWork.Movies.Update(actor);
-                unitOfWork.Movies.SaveChanges();
+                unitOfWork.SaveChanges();
                 return Results.Ok(new
                 {
-                    message = "Successfully Updated Movie!",
+                    message = "Successfully Updated Actor!",
                     updatedItem = actor
                 });
             }
             catch
             {
-                return Results.Json(new { message = "Something went wrong, could not add movie to database" }, statusCode: StatusCodes.Status500InternalServerError);
+                return Results.Json(new { message = "Something went wrong, could not add/update actor to database" }, statusCode: StatusCodes.Status500InternalServerError);
             }
         }).AddEndpointFilter<ValidationFilter<Movie>>();
 
@@ -98,6 +98,25 @@ static public class ActorAPI
 
     public static void ActorDeleteAPI(RouteGroupBuilder group)
     {
-        
+        group.MapDelete("", (IUnitOfWork unitOfWork, int id) =>
+        {
+            try
+            {
+                var deleted = unitOfWork.Actors.Delete(id);
+                if (deleted == null) return Results.NotFound();
+
+                unitOfWork.SaveChanges();
+
+                return Results.Ok(new
+                {
+                    message = "Successfully Added Actor to List!",
+                    deletedItem = deleted
+                });
+            }
+            catch
+            {
+                return Results.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        });
     }
 }
